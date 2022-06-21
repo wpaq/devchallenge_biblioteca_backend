@@ -3,15 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [],
-  "author": "",
+  "author": "wpaq",
   "license": "ISC",
+  "scripts": {
+    "test": "jest --colors --noStackTrace --passWithNoTests --runInBand",
+    "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:integration": "npm test -- --watch -c jest-integration-config.js",
+    "test:staged": "npm test -- --findRelatedTests --silent",
+    "test:ci": "npm test -- --coverage --silent",
+    "prepare": "husky install"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
   "devDependencies": {
     "husky": "^8.0.1",
     "jest": "^28.1.1",
-    "lint-staged": "^13.0.2"
+    "lint-staged": "^13.0.2",
+    "standard": "^17.0.0"
   }
 }
