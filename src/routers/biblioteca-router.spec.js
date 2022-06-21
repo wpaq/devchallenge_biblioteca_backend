@@ -26,9 +26,10 @@ class HttpResponse {
     }
   }
 
-  static serverError (paramName) {
+  static serverError () {
     return {
-      statusCode: 500
+      statusCode: 500,
+      body: new ServerError()
     }
   }
 }
@@ -37,6 +38,13 @@ class MissingParamError extends Error {
   constructor (paramName) {
     super(`Missing param: ${paramName}`)
     this.name = 'MissingParamError'
+  }
+}
+
+class ServerError extends Error {
+  constructor () {
+    super('Internal error')
+    this.name = 'ServerError'
   }
 }
 
@@ -69,6 +77,7 @@ describe('Biblioteca Router', () => {
     const sut = new BibliotecaRouter()
     const httpResponse = await sut.route()
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 
   test('Should return 500 if no httpRequest has no body', async () => {
@@ -76,5 +85,6 @@ describe('Biblioteca Router', () => {
     const httpRequest = {}
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
