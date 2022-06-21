@@ -1,44 +1,16 @@
+const BibliotecaRouter = require('./biblioteca-router')
 const { MissingParamError, ServerError } = require('../utils/errors')
 
-class BibliotecaRouter {
-  route (httpRequest) {
-    if (!httpRequest) {
-      return HttpResponse.serverError()
-    }
-
-    if (!httpRequest.body) {
-      return HttpResponse.serverError()
-    }
-
-    const { titulo, editora } = httpRequest.body
-    if (!titulo) {
-      return HttpResponse.badRequest('titulo')
-    }
-    if (!editora) {
-      return HttpResponse.badRequest('editora')
-    }
-  }
-}
-
-class HttpResponse {
-  static badRequest (paramName) {
-    return {
-      statusCode: 400,
-      body: new MissingParamError(paramName)
-    }
-  }
-
-  static serverError () {
-    return {
-      statusCode: 500,
-      body: new ServerError()
-    }
+const makeSut = () => {
+  const sut = new BibliotecaRouter()
+  return {
+    sut
   }
 }
 
 describe('Biblioteca Router', () => {
   test('Should return 400 if no titulo is provided', async () => {
-    const sut = new BibliotecaRouter()
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         editora: 'any_editora'
@@ -50,7 +22,7 @@ describe('Biblioteca Router', () => {
   })
 
   test('Should return 400 if no editora is provided', async () => {
-    const sut = new BibliotecaRouter()
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         titulo: 'any_title'
@@ -62,14 +34,14 @@ describe('Biblioteca Router', () => {
   })
 
   test('Should return 500 if no httpRequest is provided', async () => {
-    const sut = new BibliotecaRouter()
+    const { sut } = makeSut()
     const httpResponse = await sut.route()
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
 
   test('Should return 500 if no httpRequest has no body', async () => {
-    const sut = new BibliotecaRouter()
+    const { sut } = makeSut()
     const httpRequest = {}
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
