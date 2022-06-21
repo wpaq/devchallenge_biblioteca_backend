@@ -52,7 +52,8 @@ describe('Biblioteca Router', () => {
 
   test('Should return 500 if no httpRequest has no body', async () => {
     const sut = new BibliotecaRouter()
-    const httpResponse = await sut.route({})
+    const httpRequest = {}
+    const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
   })
 })
