@@ -12,7 +12,8 @@ class BibliotecaRouter {
       }
     }
 
-    if (!httpRequest.body.titulo) {
+    const { titulo, editora } = httpRequest.body
+    if (!titulo || !editora) {
       return {
         statusCode: 400
       }
@@ -24,7 +25,20 @@ describe('Biblioteca Router', () => {
   test('Should return 400 if no titulo is provided', async () => {
     const sut = new BibliotecaRouter()
     const httpRequest = {
-      body: {}
+      body: {
+        editora: 'any_editora'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+  })
+
+  test('Should return 400 if no editora is provided', async () => {
+    const sut = new BibliotecaRouter()
+    const httpRequest = {
+      body: {
+        title: 'any_title'
+      }
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
