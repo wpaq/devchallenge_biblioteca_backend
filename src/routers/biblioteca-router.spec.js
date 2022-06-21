@@ -10,25 +10,33 @@ class BibliotecaRouter {
 
     const { titulo, editora } = httpRequest.body
     if (!titulo) {
-      return HttpResponse.badRequest()
+      return HttpResponse.badRequest('titulo')
     }
     if (!editora) {
-      return HttpResponse.badRequest()
+      return HttpResponse.badRequest('editora')
     }
   }
 }
 
 class HttpResponse {
-  static badRequest () {
+  static badRequest (paramName) {
     return {
-      statusCode: 400
+      statusCode: 400,
+      body: new MissingParamError(paramName)
     }
   }
 
-  static serverError () {
+  static serverError (paramName) {
     return {
       statusCode: 500
     }
+  }
+}
+
+class MissingParamError extends Error {
+  constructor (paramName) {
+    super(`Missing param: ${paramName}`)
+    this.name = 'MissingParamError'
   }
 }
 
@@ -42,17 +50,19 @@ describe('Biblioteca Router', () => {
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new MissingParamError('titulo'))
   })
 
   test('Should return 400 if no editora is provided', async () => {
     const sut = new BibliotecaRouter()
     const httpRequest = {
       body: {
-        title: 'any_title'
+        titulo: 'any_title'
       }
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new MissingParamError('editora'))
   })
 
   test('Should return 500 if no httpRequest is provided', async () => {
