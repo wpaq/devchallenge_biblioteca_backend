@@ -1,3 +1,5 @@
+const { MissingParamError, ServerError } = require('../utils/errors')
+
 class BibliotecaRouter {
   route (httpRequest) {
     if (!httpRequest) {
@@ -31,20 +33,6 @@ class HttpResponse {
       statusCode: 500,
       body: new ServerError()
     }
-  }
-}
-
-class MissingParamError extends Error {
-  constructor (paramName) {
-    super(`Missing param: ${paramName}`)
-    this.name = 'MissingParamError'
-  }
-}
-
-class ServerError extends Error {
-  constructor () {
-    super('Internal error')
-    this.name = 'ServerError'
   }
 }
 
