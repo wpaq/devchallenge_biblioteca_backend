@@ -12,7 +12,7 @@ class BibliotecaRouter {
       }
     }
 
-    if (!httpRequest.body.title) {
+    if (!httpRequest.body.titulo) {
       return {
         statusCode: 400
       }
@@ -21,7 +21,7 @@ class BibliotecaRouter {
 }
 
 describe('Biblioteca Router', () => {
-  test('Should return 400 if no title is provided', async () => {
+  test('Should return 400 if no titulo is provided', async () => {
     const sut = new BibliotecaRouter()
     const httpRequest = {
       body: {}
