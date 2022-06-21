@@ -1,22 +1,33 @@
 class BibliotecaRouter {
   route (httpRequest) {
     if (!httpRequest) {
-      return {
-        statusCode: 500
-      }
+      return HttpResponse.serverError()
     }
 
     if (!httpRequest.body) {
-      return {
-        statusCode: 500
-      }
+      return HttpResponse.serverError()
     }
 
     const { titulo, editora } = httpRequest.body
-    if (!titulo || !editora) {
-      return {
-        statusCode: 400
-      }
+    if (!titulo) {
+      return HttpResponse.badRequest()
+    }
+    if (!editora) {
+      return HttpResponse.badRequest()
+    }
+  }
+}
+
+class HttpResponse {
+  static badRequest () {
+    return {
+      statusCode: 400
+    }
+  }
+
+  static serverError () {
+    return {
+      statusCode: 500
     }
   }
 }
