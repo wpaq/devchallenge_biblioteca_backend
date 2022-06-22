@@ -6,13 +6,11 @@ module.exports = class InsertProjetoRepository {
   }
 
   async create (projeto) {
-    if (!projeto) {
-      throw new MissingParamError('projeto')
-    }
-    if (!projeto.titulo) {
+    const { titulo, editora } = projeto
+    if (!titulo) {
       throw new MissingParamError('titulo')
     }
-    if (!projeto.editora) {
+    if (!editora) {
       throw new MissingParamError('editora')
     }
     await this.projetoModel.insertOne(projeto)
