@@ -13,6 +13,12 @@ const makeSut = () => {
 }
 
 describe('InsertProjeto Repository', () => {
+  const fakeProjeto = {
+    _id: 'any_id',
+    titulo: 'any_titulo',
+    editora: 'any_editora'
+  }
+
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
     db = await MongoHelper.db
@@ -29,11 +35,6 @@ describe('InsertProjeto Repository', () => {
 
   test('Should insert a projeto in collection', async () => {
     const { sut, projetoModel } = makeSut()
-    const fakeProjeto = {
-      _id: 'any_id',
-      titulo: 'any_titulo',
-      editora: 'any_editora'
-    }
     await sut.create(fakeProjeto)
     const insertedProjeto = await projetoModel.findOne({ _id: 'any_id' })
     expect(insertedProjeto).toEqual(fakeProjeto)
@@ -41,11 +42,6 @@ describe('InsertProjeto Repository', () => {
 
   test('Should throw if no projetoModel is provided', async () => {
     const sut = new InsertProjetoRepository()
-    const fakeProjeto = {
-      _id: 'any_id',
-      titulo: 'any_titulo',
-      editora: 'any_editora'
-    }
     const promise = sut.create(fakeProjeto)
     expect(promise).rejects.toThrow()
   })

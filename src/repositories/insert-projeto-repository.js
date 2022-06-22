@@ -6,6 +6,9 @@ module.exports = class InsertProjetoRepository {
   }
 
   async create (projeto) {
+    if (!projeto) {
+      throw new MissingParamError('projeto')
+    }
     if (!projeto.titulo) {
       throw new MissingParamError('titulo')
     }
