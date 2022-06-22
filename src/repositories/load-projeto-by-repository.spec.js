@@ -1,9 +1,13 @@
 const MongoHelper = require('../utils/helpers/mongo-helper')
+const LoadProjetoByRepository = require('./load-projeto-by-repository')
 let db
 
-class LoadProjetoByRepository {
-  async load () {
-    return null
+const makeSut = () => {
+  const projetoModel = db.collection('projetos')
+  const sut = new LoadProjetoByRepository(projetoModel)
+  return {
+    projetoModel,
+    sut
   }
 }
 
@@ -22,9 +26,19 @@ describe('LoadProjetoByRepository', () => {
   })
 
   test('Should return null if no projeto is found', async () => {
-    const projetoModel = db.collection('projetos')
-    const sut = new LoadProjetoByRepository(projetoModel)
+    const { sut } = makeSut()
     const projeto = await sut.load('invalid_id')
     expect(projeto).toBeNull()
+  })
+
+  test('Should return an projeto if project is found', async () => {
+    const { sut, projetoModel } = makeSut()
+    const fakeProjeto = await projetoModel.insertOne({
+      _id: 'valid_id',
+      titulo: 'any_titulo',
+      editora: 'any_editora'
+    })
+    const projeto = await sut.load('valid_id')
+    expect(projeto._id).toEqual(fakeProjeto.insertedId)
   })
 })
