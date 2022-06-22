@@ -1,5 +1,6 @@
 const MongoHelper = require('../utils/helpers/mongo-helper')
 const LoadProjetoByRepository = require('./load-projeto-by-repository')
+const MissingParamError = require('../utils/errors/missing-param-error')
 let db
 
 const makeSut = () => {
@@ -46,5 +47,11 @@ describe('LoadProjetoByRepository', () => {
     const sut = new LoadProjetoByRepository()
     const promise = sut.load('valid_id')
     expect(promise).rejects.toThrow()
+  })
+
+  test('Should throw if no _id is provided', async () => {
+    const { sut } = makeSut()
+    const promise = sut.load()
+    expect(promise).rejects.toThrow(new MissingParamError('_id'))
   })
 })
