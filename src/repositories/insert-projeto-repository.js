@@ -1,4 +1,4 @@
-// const MissingParamError = require('../utils/errors/missing-param-error')
+const MissingParamError = require('../utils/errors/missing-param-error')
 
 module.exports = class InsertProjetoRepository {
   constructor (projetoModel) {
@@ -6,6 +6,12 @@ module.exports = class InsertProjetoRepository {
   }
 
   async create (projeto) {
+    if (!projeto.titulo) {
+      throw new MissingParamError('titulo')
+    }
+    if (!projeto.editora) {
+      throw new MissingParamError('editora')
+    }
     await this.projetoModel.insertOne(projeto)
   }
 }
