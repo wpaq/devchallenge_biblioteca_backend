@@ -1,9 +1,11 @@
-module.exports = class InsertUserRepository {
+// const MissingParamError = require('../utils/errors/missing-param-error')
+
+module.exports = class InsertProjetoRepository {
   constructor (projetoModel) {
     this.projetoModel = projetoModel
   }
 
-  async create (project) {
-    await this.projetoModel.insertOne(project)
+  async create (projeto) {
+    await this.projetoModel.insertOne(projeto)
   }
 }
