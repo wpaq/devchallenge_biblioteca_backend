@@ -41,4 +41,10 @@ describe('LoadProjetoByRepository', () => {
     const projeto = await sut.load('valid_id')
     expect(projeto._id).toEqual(fakeProjeto.insertedId)
   })
+
+  test('Should throw if no projetoModel is provided', async () => {
+    const sut = new LoadProjetoByRepository()
+    const promise = sut.load('valid_id')
+    expect(promise).rejects.toThrow()
+  })
 })
