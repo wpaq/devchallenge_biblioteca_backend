@@ -1,3 +1,4 @@
+const MissingParamError = require('../utils/errors/missing-param-error')
 const MongoHelper = require('../utils/helpers/mongo-helper')
 let db
 
@@ -7,6 +8,9 @@ class UpdateProjetoRepository {
   }
 
   async update (projetoId) {
+    if (!projetoId) {
+      throw new MissingParamError('projetoId')
+    }
     return projetoId
   }
 }
@@ -47,5 +51,10 @@ describe('UpdateProjeto Repository', () => {
     await sut.update(fakeProjetoId)
     const updatedFakeProjeto = await projetoModel.findOne({ _id: fakeProjetoId })
     expect(updatedFakeProjeto._id).toBe('valid_id')
+  })
+
+  test('Should throw if no params are provided', async () => {
+    const { sut } = makeSut()
+    expect(sut.update()).rejects.toThrow(new MissingParamError('projetoId'))
   })
 })
