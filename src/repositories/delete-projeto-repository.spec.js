@@ -1,5 +1,5 @@
 const MongoHelper = require('../utils/helpers/mongo-helper')
-// const MissingParamError = require('../utils/errors/missing-param-error')
+const MissingParamError = require('../utils/errors/missing-param-error')
 let db
 
 class DeleteProjetoRepository {
@@ -8,6 +8,9 @@ class DeleteProjetoRepository {
   }
 
   async delete (projetoId) {
+    if (!projetoId) {
+      throw new MissingParamError('projetoId')
+    }
     await this.projetoModel.deleteOne({ _id: projetoId })
   }
 }
@@ -49,5 +52,10 @@ describe('UpdateProjeto Repository', () => {
     await sut.delete(fakeProjetoId)
     const deletedProjeto = await projetoModel.findOne({ _id: fakeProjetoId })
     expect(deletedProjeto).toBeNull()
+  })
+
+  test('Should throw if projetoId is not provided', async () => {
+    const { sut } = makeSut()
+    expect(sut.delete()).rejects.toThrow(new MissingParamError('projetoId'))
   })
 })
