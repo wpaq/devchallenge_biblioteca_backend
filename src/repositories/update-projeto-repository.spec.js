@@ -54,6 +54,6 @@ describe('UpdateProjeto Repository', () => {
   test('Should throw if no params is provided', async () => {
     const { sut } = makeSut()
     expect(sut.update()).rejects.toThrow(new MissingParamError('projetoId'))
-    expect(sut.update('valid_id')).rejects.toThrow(new MissingParamError('data'))
+    expect(sut.update(fakeProjetoId)).rejects.toThrow(new MissingParamError('data'))
   })
 })
