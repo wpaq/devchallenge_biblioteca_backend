@@ -1,31 +1,18 @@
 const MongoHelper = require('../utils/helpers/mongo-helper')
+const DeleteProjetoRepository = require('./delete-projeto-repository')
 const MissingParamError = require('../utils/errors/missing-param-error')
 let db
-
-class DeleteProjetoRepository {
-  constructor (projetoModel) {
-    this.projetoModel = projetoModel
-  }
-
-  async delete (projetoId) {
-    if (!projetoId) {
-      throw new MissingParamError('projetoId')
-    }
-    await this.projetoModel.deleteOne({ _id: projetoId })
-  }
-}
 
 const makeSut = () => {
   const projetoModel = db.collection('projetos')
   const sut = new DeleteProjetoRepository(projetoModel)
-
   return {
     sut,
     projetoModel
   }
 }
 
-describe('UpdateProjeto Repository', () => {
+describe('DeleteProjeto Repository', () => {
   let fakeProjetoId
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
