@@ -43,6 +43,24 @@ describe('LoadProjetoByRepository', () => {
     expect(projeto._id).toEqual(fakeProjeto.insertedId)
   })
 
+  test('Should return all projetos', async () => {
+    const { sut, projetoModel } = makeSut()
+    const fakeProjetos = await projetoModel.insertMany([
+      {
+        _id: 'any_id_01',
+        titulo: 'any_titulo_01',
+        editora: 'any_editora_01'
+      },
+      {
+        _id: 'any_id_02',
+        titulo: 'any_titulo_02',
+        editora: 'any_editora_02'
+      }
+    ])
+    const projetos = await sut.loadAll()
+    expect(projetos._id).toEqual(fakeProjetos.insertedId)
+  })
+
   test('Should throw if no projetoModel is provided', async () => {
     const sut = new LoadProjetoByRepository()
     const promise = sut.load('valid_id')

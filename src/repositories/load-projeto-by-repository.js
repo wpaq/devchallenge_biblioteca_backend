@@ -12,4 +12,9 @@ module.exports = class LoadProjetoByRepository {
     const projeto = await this.projetoModel.findOne({ _id })
     return projeto
   }
+
+  async loadAll () {
+    const projetos = await this.projetoModel.find()
+    return projetos
+  }
 }
