@@ -54,6 +54,12 @@ describe('UpdateProjeto Repository', () => {
     expect(deletedProjeto).toBeNull()
   })
 
+  test('Should throw is projetoModel is not provided', async () => {
+    const sut = new DeleteProjetoRepository()
+    const promise = sut.delete(fakeProjetoId)
+    expect(promise).rejects.toThrow()
+  })
+
   test('Should throw if projetoId is not provided', async () => {
     const { sut } = makeSut()
     expect(sut.delete()).rejects.toThrow(new MissingParamError('projetoId'))
