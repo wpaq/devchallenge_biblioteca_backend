@@ -1,5 +1,5 @@
-const { MissingParamError } = require('../utils/errors')
-const HttpResponse = require('../utils/helpers/http-reponse')
+const { MissingParamError } = require('../../utils/errors')
+const HttpResponse = require('../../utils/helpers/http-reponse')
 
 module.exports = class BibliotecaRouter {
   async route (httpRequest) {

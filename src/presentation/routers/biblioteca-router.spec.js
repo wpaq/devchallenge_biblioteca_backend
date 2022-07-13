@@ -1,5 +1,5 @@
 const BibliotecaRouter = require('./biblioteca-router')
-const { MissingParamError, ServerError } = require('../utils/errors')
+const { MissingParamError, ServerError } = require('../../utils/errors')
 
 const makeSut = () => {
   const sut = new BibliotecaRouter()

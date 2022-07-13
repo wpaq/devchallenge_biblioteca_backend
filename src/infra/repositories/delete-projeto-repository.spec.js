@@ -1,6 +1,6 @@
-const MongoHelper = require('../utils/helpers/mongo-helper')
+const MongoHelper = require('../helpers/mongo-helper')
 const DeleteProjetoRepository = require('./delete-projeto-repository')
-const MissingParamError = require('../utils/errors/missing-param-error')
+const MissingParamError = require('../../utils/errors/missing-param-error')
 let db
 
 const makeSut = () => {

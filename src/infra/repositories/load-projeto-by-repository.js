@@ -1,4 +1,4 @@
-const MissingParamError = require('../utils/errors/missing-param-error')
+const MissingParamError = require('../../utils/errors/missing-param-error')
 
 module.exports = class LoadProjetoByRepository {
   constructor (projetoModel) {
